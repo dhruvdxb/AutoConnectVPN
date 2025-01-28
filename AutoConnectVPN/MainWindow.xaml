@@ -43,7 +43,7 @@
 
                 <!-- Refresh Button -->
                 <Button Content="Refresh Networks" HorizontalAlignment="Center" 
-                        Click="RefreshNetworks_Click" Margin="10,-14,10,10"/>
+                        Click="RefreshNetworks_Click" Margin="10,14,10,9"/>
 
                 <!-- Go Back Button -->
                 <Button Content="← Go Back" HorizontalAlignment="Center" Foreground="Blue" 
