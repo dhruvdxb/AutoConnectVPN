@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoConnectVPN"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Network Settings" Height="450" Width="800" Background="#0E2E5B">
+
 
 
     <Grid>
@@ -20,11 +21,11 @@
                            HorizontalAlignment="Center" Margin="0,10,0,20"/>
 
                 <!-- VPN Toggle -->
-                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
                     <TextBlock Text="Auto Connect VPN" VerticalAlignment="Center" FontSize="14"/>
                     <ToggleButton x:Name="ToggleVPN" Width="40" Height="20" Margin="10,0,0,0"
                                   Click="ToggleVPN_Click"/>
-                </StackPanel>-->
+                </StackPanel>
 
                 <!-- System Wi-Fi Networks -->
                 <ListBox x:Name="NetworkList" Height="200" Background="Transparent" 
@@ -43,7 +44,7 @@
 
                 <!-- Refresh Button -->
                 <Button Content="Refresh Networks" HorizontalAlignment="Center" 
-                        Click="RefreshNetworks_Click" Margin="10,14,10,9"/>
+                        Click="RefreshNetworks_Click" Margin="10,0,10,4" Background="#007ACC" Foreground="White"/>
 
                 <!-- Go Back Button -->
                 <Button Content="← Go Back" HorizontalAlignment="Center" Foreground="Blue" 

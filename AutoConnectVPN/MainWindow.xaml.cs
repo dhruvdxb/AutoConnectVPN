@@ -15,14 +15,14 @@ namespace AutoConnectVPN
             LoadAvailableNetworks(); // Load networks on startup
         }
 
-       
-        //private void ToggleVPN_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ToggleButton toggle = sender as ToggleButton;
-        //    MessageBox.Show(toggle.IsChecked == true ? "VPN Enabled" : "VPN Disabled");
-        //}
 
-       
+        private void ToggleVPN_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggle = sender as ToggleButton;
+            MessageBox.Show(toggle.IsChecked == true ? "VPN Enabled" : "VPN Disabled");
+        }
+
+
         private void MarkAsTrusted_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
