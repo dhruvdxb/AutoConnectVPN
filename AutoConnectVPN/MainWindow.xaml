@@ -12,7 +12,7 @@
 
                 <!-- VPN Toggle -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <TextBlock Text="Auto Connect VPN" VerticalAlignment="Center" FontSize="14"/>
+                    <TextBlock Text="Auto Connect VPN" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
                     <ToggleButton x:Name="ToggleVPN" Width="40" Height="20" Margin="10,0,0,0"
                               Click="ToggleVPN_Click"/>
                 </StackPanel>
@@ -38,7 +38,7 @@
 
                 <!-- Go Back Button -->
                 <Button Content="← Go Back" HorizontalAlignment="Center" Foreground="Blue" 
-                    Background="Transparent" BorderThickness="0" Click="GoBack_Click"/>
+                    Background="Transparent" BorderThickness="0" Click="GoBack_Click" FontWeight="Bold"/>
             </StackPanel>
         </Border>
     </Grid>
