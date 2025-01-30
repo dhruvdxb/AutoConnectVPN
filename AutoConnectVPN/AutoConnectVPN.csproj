@@ -9,7 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Asset\Ethernet.png" />
+    <None Remove="Asset\WifiConnected.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Management" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Asset\Ethernet.png" />
+    <Resource Include="Asset\WifiConnected.png" />
   </ItemGroup>
 
 </Project>

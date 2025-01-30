@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;  // Add this namespace for network interfaces
+using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Management;  // Add this namespace for WMI queries
+using System.Management;
+using System.Windows.Media.Imaging;
 
 namespace AutoConnectVPN
 {
@@ -16,21 +17,25 @@ namespace AutoConnectVPN
             LoadAvailableNetworks(); // Load networks on startup
         }
 
-
         private void ToggleVPN_Click(object sender, RoutedEventArgs e)
         {
             ToggleButton toggle = sender as ToggleButton;
             MessageBox.Show(toggle.IsChecked == true ? "VPN Enabled" : "VPN Disabled");
         }
 
-
         private void MarkAsTrusted_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            MessageBox.Show($"You marked {button.DataContext} as a trusted network.");
+            if (NetworkList.SelectedItem is NetworkItem selectedNetwork)
+            {
+                MessageBox.Show($"You marked {selectedNetwork.Name} as a trusted network.");
+            }
+            else
+            {
+                MessageBox.Show("Please select a network to mark as trusted.");
+            }
         }
 
-       
+
         private void GoBack_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Going back...");
@@ -38,21 +43,18 @@ namespace AutoConnectVPN
 
         private void LoadAvailableNetworks()
         {
-            List<string> networks = GetAvailableNetworks();
+            List<NetworkItem> networks = GetAvailableNetworks();
             NetworkList.ItemsSource = networks;
         }
 
-      
-      
         private void RefreshNetworks_Click(object sender, RoutedEventArgs e)
         {
             LoadAvailableNetworks();
         }
 
-       
-        private List<string> GetAvailableNetworks()
+        private List<NetworkItem> GetAvailableNetworks()
         {
-            List<string> networkNames = new List<string>();
+            List<NetworkItem> networkItems = new List<NetworkItem>();
 
             try
             {
@@ -68,13 +70,16 @@ namespace AutoConnectVPN
                         continue;
 
                     string networkName = networkInterface.Name;
+                    string imageSource = "pack://application:,,,/Asset/Ethernet.png"; // Default to ethernet image
+
                     if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                     {
                         string ssid = GetSSID(networkInterface);
                         networkName = !string.IsNullOrEmpty(ssid) ? ssid : networkName;
+                        imageSource = "pack://application:,,,/Asset/WifiConnected.png"; // Use wifi image for wireless networks
                     }
 
-                    networkNames.Add(networkName);
+                    networkItems.Add(new NetworkItem { Name = networkName, ImageSource = new BitmapImage(new Uri(imageSource)) });
                 }
             }
             catch (Exception ex)
@@ -82,7 +87,7 @@ namespace AutoConnectVPN
                 MessageBox.Show("Error fetching networks: " + ex.Message);
             }
 
-            return networkNames;
+            return networkItems;
         }
 
         private string GetSSID(NetworkInterface networkInterface)
@@ -108,5 +113,11 @@ namespace AutoConnectVPN
 
             return null;
         }
+    }
+
+    public class NetworkItem
+    {
+        public string Name { get; set; }
+        public BitmapImage ImageSource { get; set; }
     }
 }
