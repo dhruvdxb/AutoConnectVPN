@@ -67,11 +67,14 @@ namespace AutoConnectVPN
                         networkInterface.NetworkInterfaceType == NetworkInterfaceType.Unknown)
                         continue;
 
-                    string type = networkInterface.NetworkInterfaceType.ToString();
-                    string status = networkInterface.OperationalStatus.ToString();
-                    string ssid = GetSSID(networkInterface);
+                    string networkName = networkInterface.Name;
+                    if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+                    {
+                        string ssid = GetSSID(networkInterface);
+                        networkName = !string.IsNullOrEmpty(ssid) ? ssid : networkName;
+                    }
 
-                    networkNames.Add($"{networkInterface.Name} ({type}) - {status} - SSID: {ssid}");
+                    networkNames.Add(networkName);
                 }
             }
             catch (Exception ex)
@@ -85,7 +88,7 @@ namespace AutoConnectVPN
         private string GetSSID(NetworkInterface networkInterface)
         {
             if (networkInterface.NetworkInterfaceType != NetworkInterfaceType.Wireless80211)
-                return "N/A";
+                return null;
 
             try
             {
@@ -103,7 +106,7 @@ namespace AutoConnectVPN
                 MessageBox.Show("Error fetching SSID: " + ex.Message);
             }
 
-            return "Unknown";
+            return null;
         }
     }
 }
