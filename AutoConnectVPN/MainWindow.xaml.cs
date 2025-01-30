@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;  // Add this namespace for network interfac
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Management;  // Add this namespace for WMI queries
 
 namespace AutoConnectVPN
 {
@@ -68,7 +69,9 @@ namespace AutoConnectVPN
 
                     string type = networkInterface.NetworkInterfaceType.ToString();
                     string status = networkInterface.OperationalStatus.ToString();
-                    networkNames.Add($"{networkInterface.Name} ({type}) - {status}");
+                    string ssid = GetSSID(networkInterface);
+
+                    networkNames.Add($"{networkInterface.Name} ({type}) - {status} - SSID: {ssid}");
                 }
             }
             catch (Exception ex)
@@ -77,6 +80,30 @@ namespace AutoConnectVPN
             }
 
             return networkNames;
+        }
+
+        private string GetSSID(NetworkInterface networkInterface)
+        {
+            if (networkInterface.NetworkInterfaceType != NetworkInterfaceType.Wireless80211)
+                return "N/A";
+
+            try
+            {
+                var query = new ManagementObjectSearcher("root\\WMI", "SELECT * FROM MSNdis_80211_ServiceSetIdentifier");
+                var queryCollection = query.Get();
+
+                foreach (ManagementObject m in queryCollection)
+                {
+                    var ssid = (byte[])m["Ndis80211SsId"];
+                    return System.Text.Encoding.ASCII.GetString(ssid);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error fetching SSID: " + ex.Message);
+            }
+
+            return "Unknown";
         }
     }
 }
